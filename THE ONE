@@ -1,0 +1,114 @@
+# Simple Linear Regression program
+import numpy as np
+import matplotlib.pyplot as plt
+def SLRegress(Height,Stride): # actual computation here
+ Z = np.ones(Height.shape) # join two vectors
+ Z = np.vstack((Z, Height)) # by vertical stacking
+ Z = Z.T # array of numberdatapoints x 2
+ b,resid,rank,sgl = np.linalg.lstsq(Z,Stride,rcond=None)
+ b = np.flipud(b) #highest order first
+ return b
+
+# Start of program, height against stride
+Height = [173,180,168,178,168,166,171,180,167,169,169,176,164,164,178,175,177,174,169]
+Height = np.array(Height); tidx = np.argsort(Height);Height=Height[tidx]
+Stride = [0.583333333,0.608695652,0.583333333,0.583333333,0.583333333,0.518518519,0.636363636,0.583333333,0.583333333,0.636363636,0.7,0.777777778,0.56,0.7,0.583333333,0.4375,0.636363636,0.636363636,0.583333333]
+Stride = np.array(Stride); Stride = Stride[tidx]
+n = float(len(Height)) # need length of vector
+# show scatterplot - to get a feel for the data
+fig = plt.figure()
+ax = fig.add_axes([0, 0, 1, 1])
+plt.title('Height against Stride length');
+plt.scatter(Height, Stride,s=12, c='r', alpha=0.5)
+plt.xlabel('Height (cm)');
+plt.ylabel('Stride (m)')
+
+# LinearReg for Height against Stride
+import numpy as np
+import matplotlib.pyplot as plt
+
+model = np.polyfit(Height,Stride,1)
+predict = np.poly1d(model)
+from sklearn.metrics import r2_score
+r2_score(Height, predict(Stride))
+
+Height_lin_reg = range(160,190)
+Stride_lin_reg = predict(Height_lin_reg)
+plt.scatter(Height, Stride)
+plt.plot(Height_lin_reg, Stride_lin_reg, c = 'r')
+
+
+# Start of program, weight against stride
+Weight = [64,72,80,64,51,55,78,80,65,69,69,86,66,66,84,72,82,74,68]
+Weight = np.array(Weight); tidx = np.argsort(Weight);Weight=Weight[tidx]
+Stride = [0.583333333,0.608695652,0.583333333,0.583333333,0.583333333,0.518518519,0.636363636,0.583333333,0.583333333,0.636363636,0.7,0.777777778,0.56,0.7,0.583333333,0.4375,0.636363636,0.636363636,0.583333333]
+Stride = np.array(Stride); Stride = Stride[tidx]
+n = float(len(Weight)) # need length of vector
+# show scatterplot - to get a feel for the data
+fig = plt.figure()
+ax = fig.add_axes([0, 0, 1, 1])
+plt.title('Weight against Stride length');
+plt.scatter(Weight, Stride,s=12, c='r', alpha=0.5)
+plt.xlabel('Weight (kg)');
+plt.ylabel('Stride (m)')
+
+# LinearReg for Weight against Stride
+import numpy as np
+import matplotlib.pyplot as plt
+
+model = np.polyfit(Weight,Stride,1)
+predict = np.poly1d(model)
+from sklearn.metrics import r2_score
+r2_score(Weight, predict(Stride))
+
+Weight_lin_reg = range(45,90)
+Stride_lin_reg = predict(Weight_lin_reg)
+plt.scatter(Weight, Stride)
+plt.plot(Weight_lin_reg, Stride_lin_reg, c = 'r')
+
+
+# Start of program, age against stride
+Age = [19,50,20,19,18,21,20,20,20,20,20,19,18,18,56,53,20,22,19]
+Age = np.array(Age); tidx = np.argsort(Age);Age=Age[tidx]
+Stride = [0.583333333,0.608695652,0.583333333,0.583333333,0.583333333,0.518518519,0.636363636,0.583333333,0.583333333,0.636363636,0.7,0.777777778,0.56,0.7,0.583333333,0.4375,0.636363636,0.636363636,0.583333333]
+Stride = np.array(Stride); Stride = Stride[tidx]
+n = float(len(Age)) # need length of vector
+# show scatterplot - to get a feel for the data
+fig = plt.figure()
+ax = fig.add_axes([0, 0, 1, 1])
+plt.title('Age against Stride length');
+plt.scatter(Age, Stride,s=12, c='r', alpha=0.5)
+plt.xlabel('Age (years)');
+plt.ylabel('Stride (m)')
+
+# LinearReg for Age against Stride
+import numpy as np
+import matplotlib.pyplot as plt
+
+model = np.polyfit(Age,Stride,1)
+predict = np.poly1d(model)
+from sklearn.metrics import r2_score
+r2_score(Age, predict(Stride))
+
+Age_lin_reg = range(17,70)
+Stride_lin_reg = predict(Age_lin_reg)
+plt.scatter(Age, Stride)
+plt.plot(Age_lin_reg, Stride_lin_reg, c = 'r')
+
+
+# correlation coefficient
+xyz = np.vstack((Age, Weight, Height, Stride)) # vertical stack  #variables X #samples
+corrcoef = np.corrcoef(xyz)
+fig, ax = plt.subplots()
+im=ax.imshow(corrcoef, cmap='coolwarm')
+ax.figure.colorbar(im)
+ax.xaxis.set(ticks=(0, 1, 2, 3), ticklabels=('Age', 'Weight', 'Height', 'Stride'))
+ax.yaxis.set(ticks=(0, 1, 2, 3), ticklabels=('Age', 'Weight', 'Height', 'Stride'))
+ax.set_title('Correlation coefficients')
+ax.set_ylim(2.5, -0.5) # make sure the coloured squares fit into the boundary need to try!
+for i in range(3):
+    for j in range(3):
+        ax.text(j, i, (int(corrcoef[i, j]*100))/100, ha='center', va='center', color='y')
+
+#plt.savefig('CorrCoef.svg')
+plt.show()
